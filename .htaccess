@@ -1,0 +1,140 @@
+# .htaccess لتطبيق حلويات الياسمين PWA
+# إصدار: 2.0.0
+
+# HTTPS Redirect (مطلوب للـ PWA)
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# PWA Configuration
+<IfModule mod_mime.c>
+    # Manifest و Service Worker
+    AddType application/manifest+json .webmanifest
+    AddType application/manifest+json .json
+    AddType text/cache-manifest .appcache
+    
+    # الخطوط العربية
+    AddType font/woff2 .woff2
+    AddType font/woff .woff
+    AddType font/truetype .ttf
+    AddType font/opentype .otf
+</IfModule>
+
+# Service Worker Headers
+<Files "sw.js">
+    Header set Service-Worker-Allowed "/"
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+</Files>
+
+# Manifest Headers
+<Files "manifest.json">
+    Header set Content-Type "application/manifest+json"
+    Header set Cache-Control "public, max-age=604800"
+</Files>
+
+# Security Headers
+<IfModule mod_headers.c>
+    # PWA Security
+    Header always set X-Content-Type-Options nosniff
+    Header always set X-Frame-Options DENY
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    
+    # PWA App Permissions
+    Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+    
+    # CORS للـ PWA
+    Header always set Access-Control-Allow-Origin "*"
+    Header always set Access-Control-Allow-Methods "GET, POST, OPTIONS"
+    Header always set Access-Control-Allow-Headers "Content-Type, Authorization"
+</IfModule>
+
+# Cache Policy للـ PWA
+<IfModule mod_expires.c>
+    ExpiresActive on
+    
+    # Static Assets - Cache طويل
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType font/woff "access plus 1 year"
+    
+    # PWA Files - Cache متوسط
+    ExpiresByType application/manifest+json "access plus 1 week"
+    ExpiresByType text/html "access plus 1 hour"
+    
+    # Service Worker - لا cache
+    ExpiresByType application/javascript "access plus 0 seconds"
+</IfModule>
+
+# Compression للـ PWA
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE text/javascript
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/x-javascript
+    AddOutputFilterByType DEFLATE application/json
+    AddOutputFilterByType DEFLATE application/manifest+json
+</IfModule>
+
+# URL Rewriting للـ PWA
+RewriteEngine On
+
+# Handle Angular/React Router (PWA SPA)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(?!api|sw\.js|manifest\.json|offline\.html) index.html [QSA,L]
+
+# Redirect old URLs (if any)
+# RewriteRule ^old-page$ /new-page [R=301,L]
+
+# PWA Shortcuts Support
+RewriteRule ^quick/?$ /?quick=true [QSA,L]
+RewriteRule ^favorites/?$ /?favorites=true [QSA,L]
+RewriteRule ^offers/?$ /?offers=true [QSA,L]
+
+# Block access to sensitive files
+<FilesMatch "\.(env|log|ini|conf|config|bak|sql|git)">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Prevent directory browsing
+Options -Indexes
+
+# Error Pages
+ErrorDocument 404 /offline.html
+ErrorDocument 500 /offline.html
+ErrorDocument 503 /offline.html
+
+# Optional: Force download for certain files
+# <FilesMatch "\.(pdf|doc|docx|xls|xlsx)$">
+#     Header set Content-Disposition "attachment"
+# </FilesMatch>
+
+# Hotlink Protection for Images
+RewriteCond %{HTTP_REFERER} !^$
+RewriteCond %{HTTP_REFERER} !^https?://(www\.)?yourdomain\.com [NC]
+RewriteRule \.(jpg|jpeg|png|gif|webp)$ - [F,L]
+
+# Redirect www to non-www (or vice versa)
+# RewriteCond %{HTTP_HOST} ^www\.yourdomain\.com [NC]
+# RewriteRule ^(.*)$ https://yourdomain.com/$1 [R=301,L]
+
+# Performance: Remove ETags
+Header unset ETag
+FileETag None

@@ -1,4 +1,4 @@
-// Service Worker لتطبيق حلويات الياسمين
+// Service Worker لتطبيق حلويات الياسمين PWA
 // إصدار: 2.0.0
 
 const CACHE_NAME = 'yasmin-sweets-v2.0.0';
@@ -7,7 +7,7 @@ const OFFLINE_URL = '/offline.html';
 // الملفات الأساسية للتخزين المؤقت
 const STATIC_CACHE_URLS = [
   '/',
-  '/yasmin_sweets_app.html',
+  '/index.html',
   '/manifest.json',
   '/offline.html',
   // CSS External
@@ -15,9 +15,8 @@ const STATIC_CACHE_URLS = [
   'https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap',
   // JS External
   'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2',
-  // الأيقونات
-  '/icons/icon-192x192.png',
-  '/icons/icon-512x512.png'
+  // الأيقونة الرئيسية
+  'https://wgvkbrmcgejscgsyapcs.supabase.co/storage/v1/object/public/yasmin//clashy_admin_1750834776504_flv3a844e.png'
 ];
 
 // الملفات الديناميكية للتخزين المؤقت عند الطلب
@@ -30,30 +29,30 @@ const DYNAMIC_CACHE_URLS = [
 
 // تثبيت Service Worker
 self.addEventListener('install', event => {
-  console.log('🔧 Service Worker: Installing...');
+  console.log('🔧 Service Worker: Installing Yasmin Sweets PWA...');
   
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => {
-        console.log('📦 Service Worker: Caching static files');
+        console.log('📦 Service Worker: Caching static files for Yasmin Sweets');
         return cache.addAll(STATIC_CACHE_URLS.map(url => {
           return new Request(url, { cache: 'reload' });
         }));
       })
       .then(() => {
-        console.log('✅ Service Worker: Installation complete');
+        console.log('✅ Service Worker: Yasmin Sweets installation complete');
         // تفعيل فوري للـ Service Worker الجديد
         return self.skipWaiting();
       })
       .catch(error => {
-        console.error('❌ Service Worker: Installation failed', error);
+        console.error('❌ Service Worker: Yasmin Sweets installation failed', error);
       })
   );
 });
 
 // تفعيل Service Worker
 self.addEventListener('activate', event => {
-  console.log('🚀 Service Worker: Activating...');
+  console.log('🚀 Service Worker: Activating Yasmin Sweets PWA...');
   
   event.waitUntil(
     Promise.all([
@@ -62,7 +61,7 @@ self.addEventListener('activate', event => {
         return Promise.all(
           cacheNames.map(cacheName => {
             if (cacheName !== CACHE_NAME) {
-              console.log('🗑️ Service Worker: Deleting old cache:', cacheName);
+              console.log('🗑️ Service Worker: Deleting old Yasmin cache:', cacheName);
               return caches.delete(cacheName);
             }
           })
@@ -71,7 +70,7 @@ self.addEventListener('activate', event => {
       // السيطرة على جميع الصفحات فوراً
       self.clients.claim()
     ]).then(() => {
-      console.log('✅ Service Worker: Activation complete');
+      console.log('✅ Service Worker: Yasmin Sweets activation complete');
     })
   );
 });
@@ -153,7 +152,7 @@ async function networkFirst(request) {
     }
     
     // إذا كان طلب HTML، إرجاع صفحة offline
-    if (request.headers.get('accept').includes('text/html')) {
+    if (request.headers.get('accept') && request.headers.get('accept').includes('text/html')) {
       return await caches.match(OFFLINE_URL);
     }
     
@@ -187,51 +186,61 @@ self.addEventListener('message', event => {
   }
 });
 
-// إشعارات Push (اختياري)
+// إشعارات Push للعروض الجديدة
 self.addEventListener('push', event => {
-  console.log('📢 Service Worker: Push notification received');
-  const imageUrl = 'https://wgvkbrmcgejscgsyapcs.supabase.co/storage/v1/object/public/yasmin//clashy_admin_1750834776504_flv3a844e.png';
-
+  console.log('📢 Service Worker: Push notification received for Yasmin Sweets');
+  
   const options = {
-    body: event.data ? event.data.text() : 'لديك منتجات جديدة في حلويات الياسمين! 🌸',
-    icon: imageUrl,
-    badge: imageUrl,
-    image: imageUrl,
+    body: event.data ? event.data.text() : 'منتجات جديدة وعروض مميزة في حلويات الياسمين! 🌸',
+    icon: 'https://wgvkbrmcgejscgsyapcs.supabase.co/storage/v1/object/public/yasmin//clashy_admin_1750834776504_flv3a844e.png',
+    badge: 'https://wgvkbrmcgejscgsyapcs.supabase.co/storage/v1/object/public/yasmin//clashy_admin_1750834776504_flv3a844e.png',
+    image: 'https://wgvkbrmcgejscgsyapcs.supabase.co/storage/v1/object/public/yasmin//clashy_admin_1750834776504_flv3a844e.png',
     dir: 'rtl',
     lang: 'ar',
     vibrate: [200, 100, 200],
     data: {
       dateOfArrival: Date.now(),
-      primaryKey: 1
+      primaryKey: 1,
+      source: 'yasmin-sweets'
     },
     actions: [
       {
         action: 'explore',
         title: 'تصفح المنتجات',
-        icon: imageUrl
+        icon: 'https://wgvkbrmcgejscgsyapcs.supabase.co/storage/v1/object/public/yasmin//clashy_admin_1750834776504_flv3a844e.png'
+      },
+      {
+        action: 'order',
+        title: 'طلب سريع',
+        icon: 'https://wgvkbrmcgejscgsyapcs.supabase.co/storage/v1/object/public/yasmin//clashy_admin_1750834776504_flv3a844e.png'
       },
       {
         action: 'close',
         title: 'إغلاق',
-        icon: imageUrl
+        icon: 'https://wgvkbrmcgejscgsyapcs.supabase.co/storage/v1/object/public/yasmin//clashy_admin_1750834776504_flv3a844e.png'
       }
     ]
   };
   
   event.waitUntil(
-    self.registration.showNotification('حلويات الياسمين 🌸', options)
+    self.registration.showNotification('🌸 حلويات الياسمين', options)
   );
 });
 
 // التعامل مع النقر على الإشعارات
 self.addEventListener('notificationclick', event => {
-  console.log('🔔 Service Worker: Notification clicked');
+  console.log('🔔 Service Worker: Yasmin Sweets notification clicked');
   
   event.notification.close();
   
   if (event.action === 'explore') {
     event.waitUntil(
-      clients.openWindow('/?from=notification')
+      clients.openWindow('/?from=notification&action=explore')
+    );
+  } else if (event.action === 'order') {
+    event.waitUntil(
+      clients.openWindow('https://wa.me/9647712345678?text=' + 
+        encodeURIComponent('السلام عليكم، أرغب في طلب سريع من حلويات الياسمين'))
     );
   } else if (event.action === 'close') {
     // لا نفعل شيء، فقط إغلاق الإشعار
@@ -257,30 +266,40 @@ self.addEventListener('notificationclick', event => {
 
 // مزامنة الخلفية
 self.addEventListener('sync', event => {
-  console.log('🔄 Service Worker: Background sync triggered');
+  console.log('🔄 Service Worker: Background sync triggered for Yasmin Sweets');
   
-  if (event.tag === 'background-sync') {
+  if (event.tag === 'yasmin-background-sync') {
     event.waitUntil(
       // هنا يمكن إضافة منطق مزامنة البيانات
-      console.log('📊 Service Worker: Syncing data in background')
+      syncYasminData()
     );
   }
 });
 
+// دالة مزامنة بيانات حلويات الياسمين
+async function syncYasminData() {
+  try {
+    console.log('📊 Service Worker: Syncing Yasmin Sweets data in background');
+    
+    // يمكن إضافة منطق مزامنة البيانات هنا
+    // مثل تحديث المنتجات أو الإعلانات
+    
+    return Promise.resolve();
+  } catch (error) {
+    console.error('❌ Service Worker: Failed to sync Yasmin data:', error);
+    return Promise.reject(error);
+  }
+}
+
 // معالجة الأخطاء
 self.addEventListener('error', event => {
-  console.error('❌ Service Worker: Error occurred', event.error);
+  console.error('❌ Service Worker: Error occurred in Yasmin Sweets PWA', event.error);
 });
 
 // معالجة الأخطاء غير المتوقعة
 self.addEventListener('unhandledrejection', event => {
-  console.error('❌ Service Worker: Unhandled promise rejection', event.reason);
+  console.error('❌ Service Worker: Unhandled promise rejection in Yasmin Sweets PWA', event.reason);
 });
-
-// تحديث دوري للـ cache (كل 24 ساعة)
-function schedulePeriodicSync() {
-  return self.registration.sync.register('periodic-background-sync');
-}
 
 // تنظيف الـ cache القديم
 async function cleanupOldCaches() {
@@ -290,11 +309,22 @@ async function cleanupOldCaches() {
   return Promise.all(
     cacheNames.map(cacheName => {
       if (!cacheWhitelist.includes(cacheName)) {
-        console.log('🗑️ Service Worker: Deleting old cache:', cacheName);
+        console.log('🗑️ Service Worker: Deleting old Yasmin cache:', cacheName);
         return caches.delete(cacheName);
       }
     })
   );
 }
 
-console.log('🌸 Service Worker لحلويات الياسمين جاهز للعمل!');
+// إشعار عند اكتمال التثبيت
+self.addEventListener('install', event => {
+  console.log('🌸 Service Worker لحلويات الياسمين جاهز للعمل!');
+  console.log('✨ الميزات المتاحة:');
+  console.log('  • العمل بدون إنترنت');
+  console.log('  • تخزين مؤقت للصور والمنتجات');
+  console.log('  • إشعارات العروض الجديدة');
+  console.log('  • مزامنة تلقائية للبيانات');
+  console.log('  • تحديثات سلسة للتطبيق');
+});
+
+console.log('🌸 Service Worker حلويات الياسمين v2.0.0 - مُحمل ومُفعل!');
