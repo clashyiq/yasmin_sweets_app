@@ -14,10 +14,24 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="حلويات الياسمين">
+    <meta name="msapplication-TileColor" content="#D97706">
+    <meta name="msapplication-config" content="/browserconfig.xml">
     
-    <!-- Icons -->
-    <link rel="icon" type="image/png" sizes="32x32" href="https://via.placeholder.com/32x32/D97706/ffffff?text=🌸">
-    <link rel="apple-touch-icon" href="https://via.placeholder.com/180x180/D97706/ffffff?text=🌸">
+    <!-- Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- Icons for different platforms -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#D97706">
+    
+    <!-- Windows specific -->
+    <meta name="msapplication-TileImage" content="/icons/mstile-144x144.png">
+    <meta name="msapplication-square70x70logo" content="/icons/mstile-70x70.png">
+    <meta name="msapplication-square150x150logo" content="/icons/mstile-150x150.png">
+    <meta name="msapplication-wide310x150logo" content="/icons/mstile-310x150.png">
+    <meta name="msapplication-square310x310logo" content="/icons/mstile-310x310.png">
     
     <!-- External Resources -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -25,7 +39,6 @@
     
     <!-- Supabase SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
     <style>
         :root {
             /* Color Variables - حلويات الياسمين Theme */
@@ -1833,9 +1846,240 @@
             content-visibility: auto;
             contain-intrinsic-size: 1000px;
         }
+
+
+ :root {
+            /* Color Variables - حلويات الياسمين Theme */
+            --primary: linear-gradient(135deg, #D97706 0%, #F59E0B 100%);
+            --primary-solid: #D97706;
+            --secondary: linear-gradient(135deg, #92400E 0%, #A16207 100%);
+            --secondary-solid: #92400E;
+            --accent: linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%);
+            --accent-solid: #F59E0B;
+            --success: linear-gradient(135deg, #059669 0%, #10B981 100%);
+            --success-solid: #059669;
+            --error: linear-gradient(135deg, #DC2626 0%, #EF4444 100%);
+            --error-solid: #DC2626;
+            
+            /* حلويات الياسمين Brand Colors */
+            --yasmin-gold: #D97706;
+            --yasmin-cream: #FEF3C7;
+            --yasmin-brown: #92400E;
+            --yasmin-amber: #F59E0B;
+            --yasmin-warm: #FBBF24;
+            
+            /* Dark Mode Colors */
+            --bg-primary: #0F0A06;
+            --bg-secondary: #1C1612;
+            --bg-tertiary: #292318;
+            --text-primary: #FEF3C7;
+            --text-secondary: #E5D5A3;
+            --text-muted: #C4B070;
+            --border-color: rgba(217, 119, 6, 0.2);
+            --glass: rgba(217, 119, 6, 0.1);
+            --glass-border: rgba(217, 119, 6, 0.2);
+            --shadow-color: rgba(0, 0, 0, 0.4);
+            
+            /* Social Media Colors */
+            --whatsapp: #25D366;
+            --instagram: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+            --instagram-solid: #E4405F;
+            
+            /* Optimized Spacing */
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-5: 1.25rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-10: 2.5rem;
+            
+            /* Border Radius */
+            --radius-sm: 0.25rem;
+            --radius-md: 0.375rem;
+            --radius-lg: 0.5rem;
+            --radius-xl: 0.75rem;
+            --radius-2xl: 1rem;
+            --radius-3xl: 1.5rem;
+            --radius-full: 9999px;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 var(--shadow-color);
+            --shadow-md: 0 4px 6px -1px var(--shadow-color);
+            --shadow-lg: 0 10px 15px -3px var(--shadow-color);
+            --shadow-xl: 0 20px 25px -5px var(--shadow-color);
+            
+            /* Typography */
+            --font-size-xs: 0.75rem;
+            --font-size-sm: 0.875rem;
+            --font-size-base: 1rem;
+            --font-size-lg: 1.125rem;
+            --font-size-xl: 1.25rem;
+            --font-size-2xl: 1.5rem;
+            --font-size-3xl: 1.875rem;
+            
+            /* Fast Transitions */
+            --transition-fast: 0.1s ease-out;
+            --transition-base: 0.15s ease-out;
+            --transition-slow: 0.2s ease-out;
+        }
+
+        /* Light Mode Colors */
+        .light-mode {
+            --bg-primary: #FFFBEB;
+            --bg-secondary: #FEF3C7;
+            --bg-tertiary: #FDE68A;
+            --text-primary: #92400E;
+            --text-secondary: #A16207;
+            --text-muted: #D97706;
+            --border-color: rgba(217, 119, 6, 0.3);
+            --glass: rgba(254, 243, 199, 0.8);
+            --glass-border: rgba(217, 119, 6, 0.2);
+            --shadow-color: rgba(146, 64, 14, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.5;
+            font-size: var(--font-size-sm);
+            min-height: 100vh;
+            position: relative;
+            -webkit-font-smoothing: antialiased;
+            transition: all var(--transition-base);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* PWA Install Banner */
+        .pwa-install-banner {
+            position: fixed;
+            bottom: 70px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--yasmin-gold) 0%, var(--yasmin-amber) 100%);
+            color: white;
+            padding: var(--space-3) var(--space-4);
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-xl);
+            z-index: 1001;
+            display: none;
+            align-items: center;
+            gap: var(--space-3);
+            font-weight: 600;
+            font-size: var(--font-size-sm);
+            max-width: 90vw;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        .pwa-install-banner.show {
+            display: flex;
+        }
+
+        .install-icon {
+            font-size: var(--font-size-lg);
+        }
+
+        .install-text {
+            flex: 1;
+            text-align: center;
+        }
+
+        .install-actions {
+            display: flex;
+            gap: var(--space-2);
+        }
+
+        .install-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: var(--space-2) var(--space-3);
+            border-radius: var(--radius-lg);
+            font-size: var(--font-size-xs);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+
+        .install-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .install-btn.primary {
+            background: white;
+            color: var(--yasmin-gold);
+        }
+
+        .install-btn.primary:hover {
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Update Available Banner */
+        .update-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--success-solid);
+            color: white;
+            padding: var(--space-2);
+            text-align: center;
+            font-weight: 600;
+            font-size: var(--font-size-sm);
+            z-index: 1002;
+            display: none;
+            cursor: pointer;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        .update-banner.show {
+            display: block;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateX(-50%) translateY(100px); opacity: 0; }
+            to { transform: translateX(-50%) translateY(0); opacity: 1; }
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+
+
+
+
     </style>
 </head>
 <body>
+
+  <!-- PWA Install Banner -->
+    <div class="pwa-install-banner" id="pwaInstallBanner">
+        <div class="install-icon">📱</div>
+        <div class="install-text">
+            تثبيت تطبيق حلويات الياسمين على جهازك
+        </div>
+        <div class="install-actions">
+            <button class="install-btn primary" id="installBtn">تثبيت</button>
+            <button class="install-btn" id="dismissInstallBtn">لاحقاً</button>
+        </div>
+    </div>
+
+    <!-- Update Available Banner -->
+    <div class="update-banner" id="updateBanner">
+        🔄 تحديث جديد متاح - انقر للتحديث
+    </div>
+
     <!-- Welcome Modal -->
     <div class="welcome-modal" id="welcomeModal">
         <div class="welcome-content">
@@ -5081,6 +5325,233 @@ CREATE TRIGGER update_yasmin_ads_updated_at
         📸 إنستغرام: ${socialLinks.instagram}
         
         ═══════════════════════════════════════
+        `);
+
+
+
+            // PWA Installation and Service Worker
+        let deferredPrompt;
+        let isInstalled = false;
+
+        // Check if app is installed
+        function checkIfInstalled() {
+            if (window.matchMedia('(display-mode: standalone)').matches) {
+                isInstalled = true;
+                console.log('🎉 التطبيق مثبت ويعمل في وضع standalone');
+            }
+        }
+
+        // PWA Install Banner
+        window.addEventListener('beforeinstallprompt', (e) => {
+            console.log('💾 PWA: Install prompt available');
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            if (!isInstalled) {
+                setTimeout(() => {
+                    showInstallBanner();
+                }, 5000);
+            }
+        });
+
+        function showInstallBanner() {
+            const banner = document.getElementById('pwaInstallBanner');
+            const dismissBtn = document.getElementById('dismissInstallBtn');
+            const installBtn = document.getElementById('installBtn');
+            
+            // Check if user has dismissed before
+            if (localStorage.getItem('yasmin_install_dismissed')) {
+                return;
+            }
+            
+            banner.classList.add('show');
+            
+            installBtn.addEventListener('click', installApp);
+            dismissBtn.addEventListener('click', dismissInstallBanner);
+        }
+
+        function installApp() {
+            const banner = document.getElementById('pwaInstallBanner');
+            
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('✅ PWA: User accepted the install prompt');
+                        showNotification('🎉 جاري تثبيت التطبيق...');
+                    } else {
+                        console.log('❌ PWA: User dismissed the install prompt');
+                    }
+                    deferredPrompt = null;
+                    banner.classList.remove('show');
+                });
+            } else {
+                // Fallback instructions for manual installation
+                showInstallInstructions();
+            }
+        }
+
+        function dismissInstallBanner() {
+            const banner = document.getElementById('pwaInstallBanner');
+            banner.classList.remove('show');
+            localStorage.setItem('yasmin_install_dismissed', 'true');
+        }
+
+        function showInstallInstructions() {
+            const instructions = {
+                iOS: 'انقر على زر المشاركة 📤 ثم "إضافة إلى الشاشة الرئيسية"',
+                Android: 'افتح قائمة المتصفح ← "إضافة إلى الشاشة الرئيسية"',
+                default: 'استخدم خيارات المتصفح لإضافة التطبيق للشاشة الرئيسية'
+            };
+            
+            const userAgent = navigator.userAgent;
+            let instruction = instructions.default;
+            
+            if (/iPad|iPhone|iPod/.test(userAgent)) {
+                instruction = instructions.iOS;
+            } else if (/Android/.test(userAgent)) {
+                instruction = instructions.Android;
+            }
+            
+            showNotification('📱 ' + instruction, 'info');
+        }
+
+        // Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', async () => {
+                try {
+                    const registration = await navigator.serviceWorker.register('/sw.js', {
+                        scope: '/'
+                    });
+                    
+                    console.log('✅ Service Worker registered successfully');
+                    
+                    // Handle updates
+                    registration.addEventListener('updatefound', () => {
+                        const newWorker = registration.installing;
+                        
+                        newWorker.addEventListener('statechange', () => {
+                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                console.log('🔄 New service worker installed');
+                                showUpdateBanner();
+                            }
+                        });
+                    });
+                    
+                    // Check for updates every 5 minutes
+                    setInterval(() => {
+                        registration.update();
+                    }, 5 * 60 * 1000);
+                    
+                } catch (error) {
+                    console.error('❌ Service Worker registration failed:', error);
+                }
+            });
+        }
+
+        function showUpdateBanner() {
+            const banner = document.getElementById('updateBanner');
+            banner.classList.add('show');
+            
+            banner.addEventListener('click', () => {
+                if ('serviceWorker' in navigator) {
+                    navigator.serviceWorker.getRegistration().then((registration) => {
+                        if (registration && registration.waiting) {
+                            registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+                            window.location.reload();
+                        }
+                    });
+                }
+            });
+            
+            // Auto hide after 10 seconds
+            setTimeout(() => {
+                banner.classList.remove('show');
+            }, 10000);
+        }
+
+        // Handle app install event
+        window.addEventListener('appinstalled', () => {
+            console.log('🎉 PWA: App installed successfully');
+            isInstalled = true;
+            localStorage.removeItem('yasmin_install_dismissed');
+            showNotification('🎉 تم تثبيت حلويات الياسمين بنجاح!');
+        });
+
+        // Handle URL parameters for shortcuts
+        window.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            
+            if (params.get('quick') === 'true') {
+                // Quick order shortcut
+                setTimeout(() => {
+                    callWhatsApp();
+                }, 1000);
+            } else if (params.get('favorites') === 'true') {
+                // Favorites shortcut
+                setTimeout(() => {
+                    showFavorites();
+                }, 1000);
+            } else if (params.get('offers') === 'true') {
+                // Offers shortcut
+                setTimeout(() => {
+                    showOffers();
+                }, 1000);
+            } else if (params.get('from') === 'notification') {
+                // From notification
+                showNotification('🔔 مرحباً بك من الإشعار!');
+            }
+        });
+
+        // Check installation status
+        checkIfInstalled();
+
+        // Network status handling
+        function handleOnlineStatus() {
+            if (navigator.onLine) {
+                showNotification('🌐 تم استعادة الاتصال بالإنترنت');
+                // Sync any pending data
+                if ('serviceWorker' in navigator && 'sync' in window.ServiceWorkerRegistration.prototype) {
+                    navigator.serviceWorker.ready.then((registration) => {
+                        return registration.sync.register('background-sync');
+                    });
+                }
+            } else {
+                showNotification('📵 لا يوجد اتصال بالإنترنت', 'error');
+            }
+        }
+
+        window.addEventListener('online', handleOnlineStatus);
+        window.addEventListener('offline', handleOnlineStatus);
+
+        // إدراج جميع JavaScript من الملف الأصلي هنا
+        // (الكود مقتطع للإيجاز - يجب إدراج جميع الجافاسكريبت من الملف الأصلي)
+
+        // تحديث console message
+        console.log(`
+        🌸 مرحباً بك في حلويات الياسمين PWA 🌸
+        ═══════════════════════════════════════════════
+        
+        📋 تطبيق PWA كامل للمعجنات والكيك والحلويات
+        🔧 إصدار: 2.0 PWA
+        📱 يمكن تثبيته على الجهاز
+        🌐 يعمل بدون إنترنت
+        👨‍💻 مطور: خصيصاً لحلويات الياسمين
+        
+        ✨ ميزات PWA:
+        • تثبيت على الجهاز
+        • عمل بدون إنترنت
+        • إشعارات push
+        • تحديثات تلقائية
+        • شاشة splash
+        • أيقونات مخصصة
+        • اختصارات التطبيق
+        
+        📞 للدعم: 07712345678
+        📸 إنستغرام: yasmin_sweets_store
+        
+        ═══════════════════════════════════════════════
         `);
 
     </script>

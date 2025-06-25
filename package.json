@@ -1,0 +1,142 @@
+{
+  "name": "yasmin-sweets-pwa",
+  "version": "2.0.0",
+  "description": "تطبيق حلويات الياسمين PWA - المعجنات والكيك والحلويات الطازجة",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve -s . -l 3000",
+    "build": "echo 'No build process needed for vanilla PWA'",
+    "test": "npx lighthouse http://localhost:3000 --output html --output-path ./lighthouse-report.html",
+    "deploy": "echo 'Upload files to your domain hosting'",
+    "icons": "echo 'Generate icons using PWA Builder or Favicon Generator'",
+    "validate": "npx pwa-asset-generator --help"
+  },
+  "keywords": [
+    "pwa",
+    "حلويات",
+    "معجنات",
+    "كيك",
+    "الياسمين",
+    "javascript",
+    "supabase",
+    "arabic",
+    "food",
+    "bakery"
+  ],
+  "author": {
+    "name": "حلويات الياسمين",
+    "email": "info@yasmin-sweets.com",
+    "phone": "+964 771 234 5678"
+  },
+  "license": "MIT",
+  "homepage": "https://yasmin-sweets.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yasmin-sweets/pwa-app.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yasmin-sweets/pwa-app/issues",
+    "email": "support@yasmin-sweets.com"
+  },
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  },
+  "devDependencies": {
+    "lighthouse": "^10.0.0",
+    "serve": "^14.0.0",
+    "pwa-asset-generator": "^6.3.0"
+  },
+  "dependencies": {},
+  "pwa": {
+    "name": "حلويات الياسمين",
+    "short_name": "حلويات الياسمين",
+    "theme_color": "#D97706",
+    "background_color": "#0F0A06",
+    "display": "standalone",
+    "orientation": "portrait",
+    "start_url": "/",
+    "scope": "/"
+  },
+  "config": {
+    "supabase": {
+      "url": "https://wgvkbrmcgejscgsyapcs.supabase.co",
+      "tables": [
+        "yasmin_products",
+        "yasmin_ads", 
+        "yasmin_messages"
+      ],
+      "storage": "yasmin-images"
+    },
+    "contact": {
+      "phone": "07712345678",
+      "whatsapp": "9647712345678",
+      "instagram": "yasmin_sweets_store"
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie <= 11"
+  ],
+  "manifest": {
+    "src": "./manifest.json",
+    "purpose": "PWA configuration"
+  },
+  "service_worker": {
+    "src": "./sw.js",
+    "scope": "/",
+    "purpose": "Offline functionality and caching"
+  },
+  "files_structure": {
+    "root": [
+      "index.html",
+      "manifest.json", 
+      "sw.js",
+      "offline.html",
+      "browserconfig.xml",
+      "package.json",
+      "README.md"
+    ],
+    "icons": [
+      "icon-72x72.png",
+      "icon-96x96.png", 
+      "icon-128x128.png",
+      "icon-144x144.png",
+      "icon-152x152.png",
+      "icon-192x192.png",
+      "icon-384x384.png",
+      "icon-512x512.png",
+      "apple-touch-icon.png",
+      "favicon-16x16.png",
+      "favicon-32x32.png",
+      "safari-pinned-tab.svg",
+      "mstile-70x70.png",
+      "mstile-150x150.png",
+      "mstile-310x150.png",
+      "mstile-310x310.png",
+      "shortcut-whatsapp.png",
+      "shortcut-favorites.png", 
+      "shortcut-offers.png",
+      "shortcut-call.png"
+    ]
+  },
+  "deployment": {
+    "requirements": [
+      "HTTPS enabled",
+      "All files uploaded to domain root", 
+      "Supabase configured",
+      "Icons generated and uploaded",
+      "Service Worker registered",
+      "Manifest.json accessible"
+    ],
+    "testing": [
+      "Chrome DevTools → Application → Manifest",
+      "Lighthouse PWA audit",
+      "Install prompt appears",
+      "Works offline",
+      "All shortcuts functional"
+    ]
+  }
+}
