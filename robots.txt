@@ -1,0 +1,28 @@
+User-agent: *
+Allow: /
+
+# PWA Files
+Allow: /manifest.json
+Allow: /sw.js
+Allow: /offline.html
+
+# Images and Assets
+Allow: /icons/
+Allow: /images/
+Allow: *.png
+Allow: *.jpg
+Allow: *.jpeg
+Allow: *.webp
+Allow: *.svg
+Allow: *.ico
+
+# CSS and JS
+Allow: *.css
+Allow: *.js
+
+# حلويات الياسمين - معلومات التطبيق
+# Yasmin Sweets - المعجنات والكيك والحلويات الطازجة
+# Progressive Web App (PWA)
+# Contact: 07712345678
+
+Sitemap: https://yourdomain.com/sitemap.xml

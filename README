@@ -1,0 +1,311 @@
+# 🌸 تعليمات نشر وإعداد تطبيق حلويات الياسمين PWA
+
+## 📋 قائمة الملفات المطلوبة
+
+### الملفات الأساسية:
+1. `yasmin_sweets_app_pwa.html` - الملف الرئيسي للتطبيق
+2. `manifest.json` - ملف PWA Manifest
+3. `sw.js` - Service Worker
+4. `offline.html` - صفحة عدم الاتصال
+5. `robots.txt` - ملف robots للـ SEO
+6. `sitemap.xml` - خريطة الموقع
+
+### صورة اللوجو:
+- يجب استخدام الصورة: `https://wgvkbrmcgejscgsyapcs.supabase.co/storage/v1/object/public/yasmin/clashy_admin_1750834776504_flv3a844e.png`
+- الصورة مدمجة في جميع الملفات وجاهزة للاستخدام
+
+---
+
+## 🚀 خطوات النشر
+
+### 1. إعداد Supabase (مطلوب أولاً):
+
+```sql
+-- نفذ هذا الكود في SQL Editor في Supabase Dashboard
+
+-- إنشاء جداول حلويات الياسمين (منفصلة عن التطبيقات الأخرى)
+
+-- جدول منتجات حلويات الياسمين
+CREATE TABLE IF NOT EXISTS yasmin_products (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name TEXT NOT NULL,
+  description TEXT NOT NULL,
+  price DECIMAL(12,2) NOT NULL,
+  original_price DECIMAL(12,2),
+  category TEXT NOT NULL CHECK (category IN ('savory_pastries', 'cakes_sweets', 'sweet_pastries', 'hot_drinks', 'cold_drinks')),
+  badge TEXT,
+  rating DECIMAL(2,1) DEFAULT 4.5 CHECK (rating >= 1 AND rating <= 5),
+  reviews INTEGER DEFAULT 0,
+  images TEXT[] DEFAULT '{}',
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- جدول إعلانات حلويات الياسمين
+CREATE TABLE IF NOT EXISTS yasmin_ads (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  title TEXT NOT NULL,
+  description TEXT NOT NULL,
+  image TEXT NOT NULL,
+  linked_product UUID REFERENCES yasmin_products(id) ON DELETE SET NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- جدول رسائل حلويات الياسمين
+CREATE TABLE IF NOT EXISTS yasmin_messages (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  product_id UUID REFERENCES yasmin_products(id) ON DELETE SET NULL,
+  sender_name TEXT DEFAULT 'عميل',
+  message_text TEXT NOT NULL,
+  is_read BOOLEAN DEFAULT FALSE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- إنشاء bucket للصور منفصل للياسمين
+INSERT INTO storage.buckets (id, name, public) 
+VALUES ('yasmin-images', 'yasmin-images', true) 
+ON CONFLICT (id) DO NOTHING;
+
+-- تفعيل Row Level Security
+ALTER TABLE yasmin_products ENABLE ROW LEVEL SECURITY;
+ALTER TABLE yasmin_ads ENABLE ROW LEVEL SECURITY;
+ALTER TABLE yasmin_messages ENABLE ROW LEVEL SECURITY;
+
+-- سياسات الوصول العام
+DROP POLICY IF EXISTS "Allow all operations on yasmin_products" ON yasmin_products;
+DROP POLICY IF EXISTS "Allow all operations on yasmin_ads" ON yasmin_ads;
+DROP POLICY IF EXISTS "Allow all operations on yasmin_messages" ON yasmin_messages;
+
+CREATE POLICY "Allow all operations on yasmin_products" 
+ON yasmin_products FOR ALL USING (true);
+
+CREATE POLICY "Allow all operations on yasmin_ads" 
+ON yasmin_ads FOR ALL USING (true);
+
+CREATE POLICY "Allow all operations on yasmin_messages" 
+ON yasmin_messages FOR ALL USING (true);
+
+-- سياسة bucket الصور للياسمين
+DROP POLICY IF EXISTS "Allow all operations on yasmin-images" ON storage.objects;
+
+CREATE POLICY "Allow all operations on yasmin-images" 
+ON storage.objects FOR ALL 
+USING (bucket_id = 'yasmin-images');
+
+-- إضافة فهارس للأداء
+CREATE INDEX IF NOT EXISTS idx_yasmin_products_category ON yasmin_products(category);
+CREATE INDEX IF NOT EXISTS idx_yasmin_products_created_at ON yasmin_products(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_yasmin_ads_created_at ON yasmin_ads(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_yasmin_messages_product_id ON yasmin_messages(product_id);
+CREATE INDEX IF NOT EXISTS idx_yasmin_messages_created_at ON yasmin_messages(created_at DESC);
+
+-- دالة تحديث updated_at تلقائياً
+CREATE OR REPLACE FUNCTION update_updated_at_column()
+RETURNS TRIGGER AS $
+BEGIN
+    NEW.updated_at = NOW();
+    RETURN NEW;
+END;
+$ language 'plpgsql';
+
+-- تطبيق الدالة على الجداول
+DROP TRIGGER IF EXISTS update_yasmin_products_updated_at ON yasmin_products;
+DROP TRIGGER IF EXISTS update_yasmin_ads_updated_at ON yasmin_ads;
+
+CREATE TRIGGER update_yasmin_products_updated_at 
+    BEFORE UPDATE ON yasmin_products 
+    FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+CREATE TRIGGER update_yasmin_ads_updated_at 
+    BEFORE UPDATE ON yasmin_ads 
+    FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+```
+
+### 2. رفع الملفات:
+
+#### أ) رفع إلى استضافة ويب:
+1. ارفع جميع الملفات إلى المجلد الجذر للموقع
+2. تأكد من أن الروابط في `manifest.json` تشير للمسار الصحيح
+3. تأكد من أن `sw.js` في المجلد الجذر
+
+#### ب) رفع إلى Vercel:
+```bash
+# إنشاء مشروع جديد
+npm init -y
+# رفع الملفات
+vercel
+```
+
+#### ج) رفع إلى Netlify:
+1. اسحب وأفلت المجلد على Netlify
+2. أو استخدم Git deployment
+
+#### د) رفع إلى GitHub Pages:
+1. أنشئ repository جديد
+2. ارفع الملفات
+3. فعل GitHub Pages في الإعدادات
+
+---
+
+## ⚙️ إعدادات مهمة
+
+### 1. تحديث URLs في manifest.json:
+```json
+{
+  "start_url": "https://yourdomain.com/",
+  "scope": "https://yourdomain.com/"
+}
+```
+
+### 2. تحديث sitemap.xml:
+غير `https://yourdomain.com/` إلى رابط موقعك الفعلي
+
+### 3. إعدادات HTTPS:
+- **مهم جداً**: PWA يتطلب HTTPS
+- تأكد من أن موقعك يعمل على HTTPS
+
+---
+
+## 📱 اختبار التطبيق
+
+### 1. اختبار PWA:
+- افتح Chrome DevTools
+- اذهب لـ Application > Manifest
+- تحقق من عدم وجود أخطاء
+
+### 2. اختبار Service Worker:
+- في Application > Service Workers
+- تأكد من تسجيل SW بنجاح
+
+### 3. اختبار التثبيت:
+- على Android Chrome: ابحث عن "Add to Home Screen"
+- على iOS Safari: "Add to Home Screen"
+- على Desktop: أيقونة التثبيت في شريط العناوين
+
+---
+
+## 🔧 تخصيص التطبيق
+
+### 1. تغيير معلومات الاتصال:
+في `yasmin_sweets_app_pwa.html`:
+```javascript
+const contactInfo = {
+    phone: '07712345678',        // غير الرقم
+    whatsapp: '9647712345678'    // غير رقم الواتساب
+};
+```
+
+### 2. تغيير روابط وسائل التواصل:
+```javascript
+const socialLinks = {
+    instagram: 'https://www.instagram.com/yasmin_sweets_store'  // غير الرابط
+};
+```
+
+### 3. تغيير إعدادات Supabase:
+```javascript
+const SUPABASE_URL = 'your-supabase-url';
+const SUPABASE_ANON_KEY = 'your-anon-key';
+```
+
+---
+
+## 🎨 تخصيص الألوان والتصميم
+
+في ملف CSS، يمكنك تغيير:
+```css
+:root {
+    --yasmin-gold: #D97706;      /* اللون الذهبي الأساسي */
+    --yasmin-amber: #F59E0B;     /* اللون الكهرماني */
+    --yasmin-brown: #92400E;     /* اللون البني */
+}
+```
+
+---
+
+## 📊 إضافة Google Analytics (اختياري)
+
+أضف في `<head>`:
+```html
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'GA_MEASUREMENT_ID');
+</script>
+```
+
+---
+
+## 🔒 أمان إضافي
+
+### 1. Content Security Policy (اختياري):
+أضف في `<head>`:
+```html
+<meta http-equiv="Content-Security-Policy" 
+      content="default-src 'self'; 
+               script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; 
+               style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; 
+               img-src 'self' data: https: blob:; 
+               font-src 'self' https://fonts.gstatic.com;">
+```
+
+### 2. إخفاء معلومات الخادم:
+في `.htaccess`:
+```apache
+Header unset Server
+Header unset X-Powered-By
+```
+
+---
+
+## 🚨 استكشاف الأخطاء
+
+### مشاكل شائعة:
+
+#### 1. PWA لا يظهر للتثبيت:
+- تأكد من HTTPS
+- تأكد من صحة manifest.json
+- تأكد من عمل Service Worker
+
+#### 2. Service Worker لا يعمل:
+- تحقق من Console في DevTools
+- تأكد من أن sw.js في المجلد الجذر
+- امسح cache المتصفح
+
+#### 3. الصور لا تظهر:
+- تحقق من روابط الصور
+- تأكد من صحة CORS settings في Supabase
+
+#### 4. قاعدة البيانات لا تعمل:
+- تأكد من تشغيل SQL في Supabase
+- تحقق من صحة SUPABASE_URL و ANON_KEY
+- تأكد من إعدادات RLS
+
+---
+
+## 📞 الدعم الفني
+
+إذا واجهت أي مشاكل:
+1. تحقق من Console في المتصفح
+2. تأكد من اتباع جميع الخطوات
+3. تحقق من إعدادات Supabase
+4. تأكد من HTTPS
+
+---
+
+## 🎉 تهانينا!
+
+بعد اتباع هذه الخطوات، ستحصل على:
+- ✅ تطبيق PWA قابل للتثبيت
+- ✅ يعمل بدون إنترنت
+- ✅ يدعم الإشعارات
+- ✅ محسن للهواتف والأجهزة اللوحية
+- ✅ سريع ومحسن للأداء
+- ✅ واجهة عربية كاملة مخصصة لحلويات الياسمين
+
+**🌸 حلويات الياسمين - PWA v2.0.1**
+*المعجنات والكيك والحلويات الطازجة*

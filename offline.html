@@ -3,334 +3,340 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بدون اتصال - حلويات الياسمين</title>
+    <title>غير متصل - حلويات الياسمين</title>
+    <link rel="icon" type="image/png" href="https://wgvkbrmcgejscgsyapcs.supabase.co/storage/v1/object/public/yasmin/clashy_admin_1750834776504_flv3a844e.png">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
-            font-family: 'Tajawal', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Tajawal', sans-serif;
             background: linear-gradient(135deg, #0F0A06 0%, #1C1612 100%);
             color: #FEF3C7;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
             text-align: center;
+            overflow: hidden;
+            position: relative;
         }
-        
+
         .offline-container {
             max-width: 500px;
-            background: rgba(217, 119, 6, 0.1);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(217, 119, 6, 0.2);
-            border-radius: 24px;
-            padding: 40px 30px;
-            animation: fadeIn 0.8s ease-out;
+            padding: 2rem;
+            position: relative;
+            z-index: 10;
         }
-        
-        .offline-icon {
+
+        .offline-logo {
             width: 120px;
             height: 120px;
-            background: url('https://wgvkbrmcgejscgsyapcs.supabase.co/storage/v1/object/public/yasmin//clashy_admin_1750834776504_flv3a844e.png') center/cover;
-            border-radius: 50%;
+            margin: 0 auto 2rem;
+            border-radius: 2rem;
+            background: linear-gradient(135deg, #D97706 0%, #F59E0B 100%);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 30px;
-            font-size: 48px;
+            font-size: 3rem;
             color: white;
             box-shadow: 0 20px 40px rgba(217, 119, 6, 0.3);
-            animation: pulse 2s infinite;
+            animation: glow 2s ease-in-out infinite alternate;
         }
-        
+
         .offline-title {
-            font-size: 28px;
-            font-weight: 800;
-            margin-bottom: 15px;
-            background: linear-gradient(135deg, #D97706 0%, #F59E0B 100%);
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #D97706 0%, #F59E0B 50%, #FBBF24 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        
+
         .offline-message {
-            font-size: 18px;
+            font-size: 1.1rem;
             line-height: 1.6;
-            margin-bottom: 30px;
+            margin-bottom: 2rem;
             color: #E5D5A3;
         }
-        
-        .offline-actions {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-bottom: 30px;
-        }
-        
-        .offline-btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 50px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, #D97706 0%, #F59E0B 100%);
-            color: white;
-        }
-        
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            color: #FEF3C7;
-            border: 1px solid rgba(217, 119, 6, 0.3);
-        }
-        
-        .offline-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(217, 119, 6, 0.3);
-        }
-        
-        .contact-info {
-            margin-top: 30px;
-            padding: 20px;
-            background: rgba(217, 119, 6, 0.05);
-            border-radius: 16px;
-            border: 1px solid rgba(217, 119, 6, 0.2);
-        }
-        
-        .contact-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: #D97706;
-            margin-bottom: 10px;
-        }
-        
-        .contact-item {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 8px;
-            color: #E5D5A3;
-            text-decoration: none;
-            padding: 8px;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-        
-        .contact-item:hover {
-            color: #D97706;
+
+        .offline-features {
             background: rgba(217, 119, 6, 0.1);
-        }
-        
-        .wifi-animation {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 24px;
-            color: rgba(217, 119, 6, 0.5);
-            animation: wifiPulse 1.5s ease-in-out infinite;
-        }
-        
-        .feature-list {
-            text-align: right;
-            margin: 20px 0;
-            padding: 20px;
-            background: rgba(217, 119, 6, 0.05);
-            border-radius: 12px;
             border: 1px solid rgba(217, 119, 6, 0.2);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
         }
-        
+
         .feature-item {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-            color: #E5D5A3;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
         }
-        
+
+        .feature-item:last-child {
+            margin-bottom: 0;
+        }
+
         .feature-icon {
             color: #D97706;
-            font-size: 18px;
+            font-size: 1.1rem;
+            width: 20px;
         }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+
+        .retry-btn {
+            background: linear-gradient(135deg, #D97706 0%, #F59E0B 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 2rem;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(217, 119, 6, 0.3);
+            margin-bottom: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
         }
-        
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+
+        .retry-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(217, 119, 6, 0.4);
         }
-        
-        @keyframes wifiPulse {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.8; }
+
+        .contact-info {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(217, 119, 6, 0.2);
+            color: #C4B070;
+            font-size: 0.9rem;
         }
-        
+
+        .contact-link {
+            color: #D97706;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .contact-link:hover {
+            color: #F59E0B;
+        }
+
+        /* خلفية متحركة */
+        .bg-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0.1;
+            z-index: 1;
+        }
+
+        .bg-pattern::before {
+            content: '🌸';
+            position: absolute;
+            font-size: 2rem;
+            animation: float 6s ease-in-out infinite;
+            top: 20%;
+            left: 10%;
+        }
+
+        .bg-pattern::after {
+            content: '🥐';
+            position: absolute;
+            font-size: 1.5rem;
+            animation: float 8s ease-in-out infinite reverse;
+            bottom: 30%;
+            right: 15%;
+        }
+
+        .floating-icon {
+            position: absolute;
+            font-size: 1.2rem;
+            animation: float 7s ease-in-out infinite;
+            opacity: 0.3;
+        }
+
+        .floating-icon:nth-child(1) { top: 15%; right: 20%; animation-delay: -1s; }
+        .floating-icon:nth-child(2) { top: 70%; left: 20%; animation-delay: -3s; }
+        .floating-icon:nth-child(3) { top: 40%; right: 10%; animation-delay: -5s; }
+
+        @keyframes glow {
+            from {
+                box-shadow: 0 20px 40px rgba(217, 119, 6, 0.3);
+            }
+            to {
+                box-shadow: 0 25px 50px rgba(217, 119, 6, 0.5);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
         @media (max-width: 480px) {
             .offline-container {
-                padding: 30px 20px;
+                padding: 1.5rem;
+            }
+            
+            .offline-logo {
+                width: 100px;
+                height: 100px;
+                font-size: 2.5rem;
             }
             
             .offline-title {
-                font-size: 24px;
+                font-size: 1.5rem;
             }
             
             .offline-message {
-                font-size: 16px;
-            }
-            
-            .offline-actions {
-                flex-direction: column;
-            }
-            
-            .feature-list {
-                text-align: center;
+                font-size: 1rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="wifi-animation" id="wifiIcon">📶</div>
-    
+    <div class="bg-pattern">
+        <div class="floating-icon">🍰</div>
+        <div class="floating-icon">☕</div>
+        <div class="floating-icon">🧁</div>
+    </div>
+
     <div class="offline-container">
-        <div class="offline-icon"></div>
+        <div class="offline-logo">
+            🌸
+        </div>
         
-        <h1 class="offline-title">🌸 حلويات الياسمين</h1>
+        <h1 class="offline-title">غير متصل بالإنترنت</h1>
         
         <p class="offline-message">
-            عذراً، لا يوجد اتصال بالإنترنت حالياً.<br>
-            يمكنك تصفح المنتجات المحفوظة أو التواصل معنا مباشرة.
+            عذراً، يبدو أنك غير متصل بالإنترنت حالياً.<br>
+            لا تقلق، يمكنك الاستمتاع ببعض الميزات دون اتصال!
         </p>
         
-        <div class="feature-list">
+        <div class="offline-features">
             <div class="feature-item">
-                <span class="feature-icon">🍰</span>
-                <span>يمكنك تصفح المنتجات المحفوظة</span>
+                <span class="feature-icon">🍪</span>
+                <span>تصفح المنتجات المحفوظة مسبقاً</span>
             </div>
             <div class="feature-item">
                 <span class="feature-icon">❤️</span>
-                <span>عرض قائمة المفضلة الخاصة بك</span>
+                <span>مراجعة قائمة المفضلة</span>
             </div>
             <div class="feature-item">
                 <span class="feature-icon">🛒</span>
-                <span>مراجعة سلة التسوق</span>
+                <span>إدارة سلة التسوق</span>
             </div>
             <div class="feature-item">
                 <span class="feature-icon">📞</span>
-                <span>التواصل معنا مباشرة</span>
+                <span>معلومات التواصل متاحة</span>
             </div>
         </div>
         
-        <div class="offline-actions">
-            <button class="offline-btn btn-primary" onclick="location.reload()">
-                🔄 إعادة المحاولة
-            </button>
-            <a href="/" class="offline-btn btn-secondary">
-                🏠 الصفحة الرئيسية
-            </a>
-        </div>
+        <button class="retry-btn" onclick="retryConnection()">
+            <span>🔄</span>
+            <span>إعادة المحاولة</span>
+        </button>
         
         <div class="contact-info">
-            <div class="contact-title">🌸 تواصل معنا مباشرة</div>
-            
-            <a href="tel:+9647712345678" class="contact-item">
-                <span>📞</span>
-                <span>07712345678</span>
-            </a>
-            
-            <a href="https://wa.me/9647712345678" class="contact-item" target="_blank">
-                <span>💬</span>
-                <span>واتساب</span>
-            </a>
-            
-            <a href="https://www.instagram.com/yasmin_sweets_store" class="contact-item" target="_blank">
-                <span>📸</span>
-                <span>إنستغرام</span>
-            </a>
-        </div>
-        
-        <div style="margin-top: 20px; font-size: 14px; color: #C4B070;">
-            🌸 تطبيق PWA - يعمل بدون إنترنت
+            <p>للطلبات العاجلة، تواصل معنا:</p>
+            <p>
+                📞 <a href="tel:07712345678" class="contact-link">07712345678</a><br>
+                📱 <a href="https://wa.me/9647712345678" class="contact-link">واتساب</a>
+            </p>
         </div>
     </div>
-    
+
     <script>
-        // تحديث الصفحة عند استعادة الاتصال
-        window.addEventListener('online', function() {
-            updateConnectionStatus();
-            setTimeout(() => {
-                location.reload();
-            }, 1000);
-        });
-        
-        window.addEventListener('offline', function() {
-            updateConnectionStatus();
-        });
-        
-        // عرض حالة الاتصال
-        function updateConnectionStatus() {
-            const wifiIcon = document.getElementById('wifiIcon');
-            if (navigator.onLine) {
-                wifiIcon.textContent = '📶';
-                wifiIcon.style.color = '#10B981';
-            } else {
-                wifiIcon.textContent = '📵';
-                wifiIcon.style.color = '#EF4444';
-            }
-        }
-        
-        // تشغيل فحص الاتصال عند تحميل الصفحة
-        updateConnectionStatus();
-        
-        // فحص الاتصال كل 5 ثوان
-        setInterval(() => {
-            if (navigator.onLine) {
-                location.reload();
-            }
-        }, 5000);
-        
-        // رسالة ترحيب
-        console.log('🌸 حلويات الياسمين - وضع عدم الاتصال');
-        console.log('📱 التطبيق يعمل بدون إنترنت!');
-        
-        // تحميل البيانات المحفوظة محلياً
-        try {
-            const savedCart = JSON.parse(localStorage.getItem('yasmin_cart') || '[]');
-            const savedFavorites = JSON.parse(localStorage.getItem('yasmin_favorites') || '[]');
+        function retryConnection() {
+            const btn = document.querySelector('.retry-btn');
+            const originalText = btn.innerHTML;
             
-            if (savedCart.length > 0 || savedFavorites.length > 0) {
-                const offlineData = document.createElement('div');
-                offlineData.style.marginTop = '20px';
-                offlineData.style.padding = '15px';
-                offlineData.style.background = 'rgba(16, 185, 129, 0.1)';
-                offlineData.style.borderRadius = '12px';
-                offlineData.style.border = '1px solid rgba(16, 185, 129, 0.2)';
-                offlineData.innerHTML = `
-                    <div style="color: #10B981; font-weight: 600; margin-bottom: 8px;">📊 البيانات المحفوظة:</div>
-                    ${savedCart.length > 0 ? `<div style="color: #E5D5A3; font-size: 14px;">🛒 السلة: ${savedCart.length} منتج</div>` : ''}
-                    ${savedFavorites.length > 0 ? `<div style="color: #E5D5A3; font-size: 14px;">❤️ المفضلة: ${savedFavorites.length} منتج</div>` : ''}
-                `;
-                document.querySelector('.offline-container').appendChild(offlineData);
-            }
-        } catch (error) {
-            console.log('لا توجد بيانات محفوظة');
+            btn.innerHTML = '<span>⏳</span><span>جاري المحاولة...</span>';
+            btn.disabled = true;
+            
+            // محاولة تحميل الصفحة الرئيسية
+            setTimeout(() => {
+                if (navigator.onLine) {
+                    window.location.href = '/';
+                } else {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                    
+                    // عرض رسالة
+                    const message = document.createElement('div');
+                    message.textContent = 'لا يزال الاتصال غير متاح. تحقق من شبكة الإنترنت.';
+                    message.style.cssText = `
+                        position: fixed;
+                        top: 2rem;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        background: rgba(220, 38, 38, 0.9);
+                        color: white;
+                        padding: 1rem 2rem;
+                        border-radius: 1rem;
+                        font-weight: 600;
+                        z-index: 1000;
+                        animation: fadeInOut 3s ease-in-out forwards;
+                    `;
+                    
+                    document.body.appendChild(message);
+                    
+                    setTimeout(() => {
+                        message.remove();
+                    }, 3000);
+                }
+            }, 2000);
         }
+        
+        // مراقبة حالة الاتصال
+        window.addEventListener('online', () => {
+            const message = document.createElement('div');
+            message.textContent = '✅ تم استعادة الاتصال! جاري تحويلك...';
+            message.style.cssText = `
+                position: fixed;
+                top: 2rem;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(5, 150, 105, 0.9);
+                color: white;
+                padding: 1rem 2rem;
+                border-radius: 1rem;
+                font-weight: 600;
+                z-index: 1000;
+            `;
+            
+            document.body.appendChild(message);
+            
+            setTimeout(() => {
+                window.location.href = '/';
+            }, 1500);
+        });
+        
+        // إضافة أنيميشن للفاديشن
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeInOut {
+                0% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+                20%, 80% { opacity: 1; transform: translateX(-50%) translateY(0); }
+                100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>
